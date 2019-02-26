@@ -5,16 +5,14 @@ import Maslo from '../common/Maslo';
 
 class Patient extends Component {
   state = {
-    dialogueOption: null,
-    masloResponse: null
+    dialogueOption: null
   };
 
   changeDialogueOption = e => {
     const option = e.currentTarget.value;
 
     this.setState({
-      dialogueOption: option,
-      masloResponse: option
+      dialogueOption: option
     });
   };
 
