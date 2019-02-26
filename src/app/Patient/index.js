@@ -1,57 +1,72 @@
 import React, { Component } from 'react';
+import Sound from 'react-sound';
 
 import Nav from '../common/Nav';
-import Maslo from '../common/Maslo';
+import Maslo from '../common/maslo/index';
+
+import Dialogue from './Dialogue';
 
 class Patient extends Component {
   state = {
-    dialogueOption: null
+    dialogueStep: null,
+    button: 'Play Patient'
   };
 
-  changeDialogueOption = e => {
-    const option = e.currentTarget.value;
-
+  startDialogue = () => {
     this.setState({
-      dialogueOption: option
+      dialogueStep: 0,
+      button: ''
+    });
+  };
+
+  dialogueNext = () => {
+    setTimeout(this.changeDialogue, 1500);
+  };
+
+  changeDialogue = () => {
+    let nextStep = this.state.dialogueStep + 1;
+    this.setState({
+      dialogueStep: nextStep
     });
   };
 
   render() {
-    const { dialogueOption } = this.state;
-    const patientDialogue = [
-      'Patient says this...',
-      'Patient says that...',
-      'alright...'
-    ];
+    let { dialogueStep } = this.state;
+
+    // current audio
+    let currentAudio =
+      dialogueStep === null || dialogueStep > Dialogue.length - 1
+        ? ''
+        : Dialogue[dialogueStep].audio;
+
+    // current patient text to display
+    let currentPatientText =
+      dialogueStep === null || dialogueStep > Dialogue.length - 1
+        ? ''
+        : Dialogue[dialogueStep].patient;
+
+    // current maslo text to display
+    let currentMasloText =
+      dialogueStep === null || dialogueStep > Dialogue.length - 1
+        ? ''
+        : Dialogue[dialogueStep].maslo;
 
     return (
       <section className="main-container">
         <Nav />
-
+        <Sound
+          url={currentAudio}
+          playStatus={Sound.status.PLAYING}
+          onFinishedPlaying={this.dialogueNext}
+        />
         <div className="maslo-container">
-          <Maslo />
-          <p>Maslo's response here</p>
+          <Maslo dialogueStep={this.state.dialogueStep} />
+          <p>{currentMasloText}</p>
         </div>
 
         <div className="patient-container">
-          <p>{patientDialogue[dialogueOption]}</p>
-          <ul>
-            <li>
-              <button onClick={this.changeDialogueOption} value="0">
-                1
-              </button>
-            </li>
-            <li>
-              <button onClick={this.changeDialogueOption} value="1">
-                2
-              </button>
-            </li>
-            <li>
-              <button onClick={this.changeDialogueOption} value="2">
-                3
-              </button>
-            </li>
-          </ul>
+          <p>{currentPatientText}</p>
+          <button onClick={this.startDialogue}>{this.state.button}</button>
         </div>
       </section>
     );
