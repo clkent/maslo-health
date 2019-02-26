@@ -9,25 +9,37 @@ import Dialogue from './Dialogue';
 class Patient extends Component {
   state = {
     dialogueStep: null,
-    button: 'Play Patient'
+    buttonClass: null
   };
 
+  //onClick of Play button
   startDialogue = () => {
     this.setState({
       dialogueStep: 0,
-      button: ''
+      buttonClass: 'hideBtn'
     });
   };
 
+  //at end of audio pause and then change dialogue
   dialogueNext = () => {
     setTimeout(this.changeDialogue, 1500);
   };
 
+  //change dialogue
   changeDialogue = () => {
     let nextStep = this.state.dialogueStep + 1;
+
     this.setState({
       dialogueStep: nextStep
     });
+
+    //once dialogue ends show play button again
+    let { dialogueStep } = this.state;
+    if (dialogueStep > Dialogue.length - 1) {
+      this.setState({
+        buttonClass: null
+      });
+    }
   };
 
   render() {
@@ -66,7 +78,12 @@ class Patient extends Component {
 
         <div className="patient-container">
           <p>{currentPatientText}</p>
-          <button onClick={this.startDialogue}>{this.state.button}</button>
+          <button
+            className={this.state.buttonClass}
+            onClick={this.startDialogue}
+          >
+            Play
+          </button>
         </div>
       </section>
     );

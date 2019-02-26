@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 class Maslo extends Component {
   render() {
-    return <div className="maslo">{this.props.dialogueStep}</div>;
+    let maslo = !this.props.dialogueStep ? 'heyo' : this.props.dialogueStep;
+
+    return <div className="maslo">{maslo}</div>;
   }
 }
 
