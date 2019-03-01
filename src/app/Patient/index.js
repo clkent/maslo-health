@@ -4,7 +4,7 @@ import Sound from 'react-sound';
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
-import Dialogue from './Dialogue';
+import DialogueP from './Dialogue';
 
 class Patient extends Component {
   state = {
@@ -35,7 +35,7 @@ class Patient extends Component {
 
     //once dialogue ends show play button again
     let { dialogueStep } = this.state;
-    if (dialogueStep > Dialogue.length - 1) {
+    if (dialogueStep > DialogueP.length - 1) {
       this.setState({
         buttonClass: null
       });
@@ -47,21 +47,21 @@ class Patient extends Component {
 
     // current audio
     let currentAudio =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
+      dialogueStep === null || dialogueStep > DialogueP.length - 1
         ? ''
-        : Dialogue[dialogueStep].audio;
+        : DialogueP[dialogueStep].audio;
 
     // current patient text to display
     let currentPatientText =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
+      dialogueStep === null || dialogueStep > DialogueP.length - 1
         ? ''
-        : Dialogue[dialogueStep].patient;
+        : DialogueP[dialogueStep].patient;
 
     // current maslo text to display
     let currentMasloText =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
+      dialogueStep === null || dialogueStep > DialogueP.length - 1
         ? ''
-        : Dialogue[dialogueStep].maslo;
+        : DialogueP[dialogueStep].maslo;
 
     return (
       <section className="main-container">
@@ -72,7 +72,10 @@ class Patient extends Component {
           onFinishedPlaying={this.dialogueNext}
         />
         <div className="maslo-container">
-          <Maslo dialogueStep={this.state.dialogueStep} />
+          <Maslo
+            dialogueStep={this.state.dialogueStep}
+            dialoguePage="DialogueP"
+          />
           <p>{currentMasloText}</p>
         </div>
 
