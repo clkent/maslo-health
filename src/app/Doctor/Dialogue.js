@@ -1,12 +1,12 @@
 //Video
-import Patient0 from '../resources/MasloFULL.mp4';
-import Patient1 from '../resources/MasloFULL.mp4';
-import Patient2 from '../resources/MasloFULL.mp4';
-import Patient3 from '../resources/MasloFULL.mp4';
-import Patient4 from '../resources/MasloFULL.mp4';
-import Patient5 from '../resources/MasloFULL.mp4';
-import Patient6 from '../resources/MasloFULL.mp4';
-import Patient7 from '../resources/MasloFULL.mp4';
+import Patient0 from '../resources/Patient1.m4v';
+import Patient1 from '../resources/Patient2.m4v';
+import Patient2 from '../resources/Patient3.m4v';
+import Patient3 from '../resources/Patient4.m4v';
+import Patient4 from '../resources/Patient5.m4v';
+import Patient5 from '../resources/Patient6.m4v';
+import Patient6 from '../resources/Patient7.m4v';
+import Patient7 from '../resources/Patient1.m4v';
 
 //Audio
 import Maslo1 from '../resources/maslo1.mp3';
@@ -16,6 +16,7 @@ import Maslo4 from '../resources/maslo4.mp3';
 
 //Animations
 import MasloIDLE from '../resources/masloIDLE.gif';
+import Patient from '../Patient/index';
 
 const DialogueD = [
   {

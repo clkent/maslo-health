@@ -13,10 +13,10 @@ class Doctor extends Component {
 
   //onClick of Play button
   startDialogue = e => {
+    e.target.play();
     this.setState({
       dialogueStep: 0
     });
-    e.target.play();
   };
 
   dialogueNext = e => {
