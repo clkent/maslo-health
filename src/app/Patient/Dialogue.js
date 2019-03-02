@@ -57,7 +57,7 @@ const DialogueP = [
   {
     audio: Patient4,
     patient: 'Thanks',
-    animation: MasloIDLE3
+    animation: MasloIDLE1
   }
 ];
 
