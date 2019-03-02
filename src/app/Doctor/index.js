@@ -26,15 +26,8 @@ class Doctor extends Component {
       dialogueStep: nextStep
     });
 
-    e.target.play();
-
-    //once dialogue ends show play button again
-    let { dialogueStep } = this.state;
-    if (dialogueStep > Dialogue.length - 1) {
-      this.setState({
-        buttonClass: null
-      });
-    }
+    console.log('step', nextStep);
+    // e.target.play();
   };
 
   render() {

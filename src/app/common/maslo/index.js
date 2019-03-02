@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import MasloIDLE from '../../resources/masloIDLE.gif';
+import MasloIDLE1 from '../../resources/masloIDLE1.gif';
 import DialogueP from '../../Patient/Dialogue';
 import DialogueD from '../../Doctor/Dialogue';
 
@@ -12,7 +12,7 @@ class Maslo extends Component {
     let Dialogue = dialoguePage === 'DialogueP' ? DialogueP : DialogueD;
 
     // if there's no dialogue step set Maslo to idle otherwise use maslo's appropriate animation
-    let maslo = !dialogueStep ? MasloIDLE : Dialogue[dialogueStep].animation;
+    let maslo = !dialogueStep ? MasloIDLE1 : Dialogue[dialogueStep].animation;
 
     return (
       <div id="maslo">
