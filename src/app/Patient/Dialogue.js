@@ -10,48 +10,54 @@ import Maslo3 from '../resources/maslo3.mp3';
 import Maslo4 from '../resources/maslo4.mp3';
 
 //Animations
-import MasloIDLE from '../resources/masloIDLE.gif';
+import MasloINIT from '../resources/masloINIT.gif';
+import MasloIDLE1 from '../resources/masloIDLE1.gif';
+import MasloNO from '../resources/masloNO.gif';
+import MasloIDLE2 from '../resources/masloIDLE2.gif';
+import MasloQ from '../resources/masloQ.gif';
+import MasloIDLE3 from '../resources/masloIDLE3.gif';
+import MasloEND from '../resources/masloEND.gif';
 
 const DialogueP = [
   {
     audio: Maslo1,
-    animation: MasloIDLE
+    animation: MasloINIT
   },
   {
     audio: Patient1,
     patient: 'Hey Maslo, Im uhh... not feeling well',
-    animation: MasloIDLE
+    animation: MasloIDLE1
   },
   {
     audio: Maslo2,
     maslo: 'Sorry to hear. What is going on?',
-    animation: MasloIDLE
+    animation: MasloNO
   },
   {
     audio: Patient2,
     patient:
       'Well Im just not myself and my family said I should talk to somebody',
-    animation: MasloIDLE
+    animation: MasloIDLE2
   },
   {
     audio: Maslo3,
     maslo: 'Has this been going on for some time?',
-    animation: MasloIDLE
+    animation: MasloQ
   },
   {
     audio: Patient3,
     patient: 'Yea, Its been a few months',
-    animation: MasloIDLE
+    animation: MasloIDLE2
   },
   {
     audio: Maslo4,
     maslo: 'I hear you - let me transfer you to the doctor.',
-    animation: MasloIDLE
+    animation: MasloEND
   },
   {
     audio: Patient4,
     patient: 'Thanks',
-    animation: MasloIDLE
+    animation: MasloIDLE3
   }
 ];
 
