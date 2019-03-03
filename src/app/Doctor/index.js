@@ -4,84 +4,112 @@ import Sound from 'react-sound';
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
-import Dialogue from './Dialogue';
+import DialogueD from './Dialogue';
 
 class Doctor extends Component {
   state = {
-    dialogueStep: null
+    dialogueStep: 0,
+    buttonClass: null
   };
 
-  //onClick of Play button
-  startDialogue = e => {
-    e.target.play();
+  //onClick of button
+  startDialogue = () => {
     this.setState({
-      dialogueStep: 0
+      buttonClass: 'hideBtn'
     });
+    this.dialogueNext();
   };
 
-  dialogueNext = e => {
-    let nextStep = this.state.dialogueStep + 1;
+  //method to update dialogueStep after each video ends and start the next step
+  dialogueNext = () => {
+    const { dialogueStep } = this.state;
+    const dialogueLength = DialogueD.length - 1;
 
-    this.setState({
-      dialogueStep: nextStep
-    });
-
-    console.log('step', nextStep);
-    // e.target.play();
+    if (dialogueStep < dialogueLength) {
+      this.setState(
+        {
+          dialogueStep: dialogueStep + 1
+        },
+        () => {
+          let video = document.getElementById('video');
+          video.load();
+          video.play();
+        }
+      );
+    } else {
+      //reset state when all videos end
+      this.setState({
+        dialogueStep: 0,
+        buttonClass: null
+      });
+    }
   };
 
   render() {
-    let { dialogueStep } = this.state;
+    let { dialogueStep, buttonClass } = this.state;
+    const dialogueLength = DialogueD.length - 1;
 
     // current video
     let currentVid =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
-        ? ''
-        : Dialogue[dialogueStep].video;
+      dialogueStep && dialogueStep <= dialogueLength
+        ? DialogueD[dialogueStep].video
+        : DialogueD[0].video;
+
+    // current video poster
+    let currentVidPoster =
+      dialogueStep && dialogueStep <= dialogueLength
+        ? DialogueD[dialogueStep].poster
+        : DialogueD[0].poster;
 
     // current audio
     let currentAudio =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
-        ? ''
-        : Dialogue[dialogueStep].audio;
+      dialogueStep && dialogueStep <= dialogueLength
+        ? DialogueD[dialogueStep].audio
+        : null;
 
     // current patient text to display
     let currentPatientText =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
-        ? ''
-        : Dialogue[dialogueStep].patient;
+      dialogueStep && dialogueStep <= dialogueLength
+        ? DialogueD[dialogueStep].patient
+        : null;
 
     // current maslo text to display
     let currentMasloText =
-      dialogueStep === null || dialogueStep > Dialogue.length - 1
-        ? ''
-        : Dialogue[dialogueStep].maslo;
+      dialogueStep && dialogueStep <= dialogueLength
+        ? DialogueD[dialogueStep].maslo
+        : null;
 
     return (
       <>
         <Nav />
-        <Sound
-          url={currentAudio}
-          playStatus={Sound.status.PLAYING}
-          onFinishedPlaying={this.dialogueNext}
-        />
         <div className="maslo-container">
+          <Sound url={currentAudio} playStatus={Sound.status.PLAYING} />
           <Maslo
             dialogueStep={this.state.dialogueStep}
             dialoguePage="DialogueD"
           />
-          <p>{currentMasloText}</p>
+          <div className="maslo-report">
+            <p>{currentMasloText}</p>
+            <div className="maslo-diagnostic">
+              <p>{}</p>
+            </div>
+          </div>
         </div>
 
         <div className="patient-container">
           <video
-            onClick={this.startDialogue}
-            width="300"
-            onEnded={e => this.dialogueNext(e)}
-          >
-            <source src={currentVid || Dialogue[0].video} type="video/mp4" />
-          </video>
+            id="video"
+            key={currentVid}
+            width="600"
+            onEnded={this.dialogueNext}
+            src={currentVid}
+            poster={currentVidPoster}
+          />
           <p>{currentPatientText}</p>
+
+          <button className={buttonClass} onClick={this.startDialogue}>
+            Play
+          </button>
         </div>
       </>
     );

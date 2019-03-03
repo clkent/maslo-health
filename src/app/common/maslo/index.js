@@ -10,13 +10,15 @@ class Maslo extends Component {
 
     //use appropriate Dialogue based on which page you're on
     let Dialogue = dialoguePage === 'DialogueP' ? DialogueP : DialogueD;
+    const dialogueLength = Dialogue.length - 1;
 
     // if there's no dialogue step set Maslo to idle otherwise use maslo's appropriate animation
     let currentMaslo =
-      dialogueStep === null || dialogueStep > DialogueP.length - 1
+      dialogueStep === null || dialogueStep > dialogueLength
         ? MasloIDLE1
         : Dialogue[dialogueStep].animation;
 
+    console.log(currentMaslo);
     return (
       <div id="maslo">
         <img src={currentMaslo} width="600" alt="maslo animation" />

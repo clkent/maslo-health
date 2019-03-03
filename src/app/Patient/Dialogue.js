@@ -15,7 +15,6 @@ import MasloIDLE1 from '../resources/masloIDLE1.gif';
 import MasloNO from '../resources/masloNO.gif';
 import MasloIDLE2 from '../resources/masloIDLE2.gif';
 import MasloQ from '../resources/masloQ.gif';
-import MasloIDLE3 from '../resources/masloIDLE3.gif';
 import MasloEND from '../resources/masloEND.gif';
 
 const DialogueP = [

@@ -20,22 +20,22 @@ class Patient extends Component {
     });
   };
 
-  //at end of audio pause and then change dialogue
+  //slight pause between dialogue steps
   dialogueNext = () => {
-    setTimeout(this.changeDialogue, 1500);
+    setTimeout(this.changeDialogue, 1000);
   };
 
   //change dialogue
   changeDialogue = () => {
-    let nextStep = this.state.dialogueStep + 1;
+    let { dialogueStep } = this.state;
+    let dialogueLength = DialogueP.length - 1;
 
     this.setState({
-      dialogueStep: nextStep
+      dialogueStep: dialogueStep + 1
     });
 
     //once dialogue ends show play button again
-    let { dialogueStep } = this.state;
-    if (dialogueStep > DialogueP.length - 1) {
+    if (dialogueStep >= dialogueLength) {
       this.setState({
         buttonClass: null
       });
@@ -44,24 +44,25 @@ class Patient extends Component {
 
   render() {
     let { dialogueStep } = this.state;
+    const dialogueLength = DialogueP.length - 1;
 
     // current audio
     let currentAudio =
-      dialogueStep === null || dialogueStep > DialogueP.length - 1
-        ? ''
-        : DialogueP[dialogueStep].audio;
+      dialogueStep !== null && dialogueStep <= dialogueLength
+        ? DialogueP[dialogueStep].audio
+        : null;
 
     // current patient text to display
     let currentPatientText =
-      dialogueStep === null || dialogueStep > DialogueP.length - 1
-        ? ''
-        : DialogueP[dialogueStep].patient;
+      dialogueStep !== null && dialogueStep <= dialogueLength
+        ? DialogueP[dialogueStep].patient
+        : null;
 
     // current maslo text to display
     let currentMasloText =
-      dialogueStep === null || dialogueStep > DialogueP.length - 1
-        ? ''
-        : DialogueP[dialogueStep].maslo;
+      dialogueStep !== null && dialogueStep <= dialogueLength
+        ? DialogueP[dialogueStep].maslo
+        : null;
 
     return (
       <section className="main-container">
