@@ -5,7 +5,7 @@ import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
-import { Signs, Symptoms, SignalProcessingOutput } from './Data';
+import { Signs, Symptoms, SignalProcessing } from './Data';
 
 class Doctor extends Component {
   state = {
@@ -18,6 +18,7 @@ class Doctor extends Component {
   //onClick of button
   startDialogue = () => {
     this.setState({
+      dialogueStep: 0,
       buttonClass: 'hideBtn'
     });
     this.dialogueNext();
@@ -25,9 +26,11 @@ class Doctor extends Component {
 
   //method to update dialogueStep after each video ends and start the next step
   dialogueNext = () => {
-    const { dialogueStep, signs } = this.state;
+    const { dialogueStep, signs, symptoms } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
+    // as long as the current step is less than the length of the dialogue array
+    // increment the step up and play the new video
     if (dialogueStep < dialogueLength) {
       this.setState(
         {
@@ -40,17 +43,24 @@ class Doctor extends Component {
         }
       );
       signs.push(Signs[dialogueStep]);
+      symptoms.push(Symptoms[dialogueStep]);
     } else {
       //reset state when all videos end
-      this.setState({
-        dialogueStep: 0,
-        buttonClass: null
-      });
+      setTimeout(this.reset, 3000);
     }
   };
 
+  reset = () => {
+    this.setState({
+      dialogueStep: 0,
+      buttonClass: null,
+      signs: [],
+      symptoms: []
+    });
+  };
+
   render() {
-    let { dialogueStep, signs, buttonClass } = this.state;
+    let { dialogueStep, signs, symptoms, buttonClass } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
     // current video
@@ -67,9 +77,12 @@ class Doctor extends Component {
 
     // current audio
     let currentAudio =
-      dialogueStep && dialogueStep <= dialogueLength
-        ? DialogueD[dialogueStep].audio
-        : null;
+      dialogueStep && dialogueStep <= dialogueLength ? (
+        <Sound
+          url={DialogueD[dialogueStep].audio}
+          playStatus={Sound.status.PLAYING}
+        />
+      ) : null;
 
     // current patient text to display
     let currentPatientText =
@@ -84,37 +97,39 @@ class Doctor extends Component {
         : null;
 
     //current data displayed
+    let currentSigns = signs.map(s => (s ? <li>{s}</li> : null));
+    let currentSymptoms = symptoms.map(s => (s ? <li>{s}</li> : null));
 
-    let currentSigns = [...signs];
+    //current signal
+    let currentSignal = SignalProcessing[dialogueStep - 1];
 
-    // let currentSymptoms =
-    //   dialogueStep && dialogueStep <= dialogueLength
-    //     ? SignalProcessingOutput[0].Symptoms
-    //     : null;
+    let currentSignalTitle =
+      dialogueStep && dialogueStep <= dialogueLength
+        ? Object.keys(currentSignal)[0]
+        : null;
 
-    // let currentProcessingTitle =
-    //   dialogueStep && dialogueStep <= dialogueLength
-    //     ? Object.keys(SignalProcessing[dialogueStep])
-    //     : null;
-
-    // let currentProcessing =
-    //   dialogueStep && dialogueStep <= dialogueLength
-    //     ? SignalProcessing[dialogueStep][0]
-    //     : null;
+    let currentSignalText =
+      dialogueStep && dialogueStep <= dialogueLength
+        ? currentSignal[currentSignalTitle]
+        : null;
 
     return (
       <>
         <Nav />
         <div className="maslo-container">
-          <Sound url={currentAudio} playStatus={Sound.status.PLAYING} />
+          {currentAudio}
           <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
           <div className="maslo-report">
             <p>{currentMasloText}</p>
             <div className="maslo-diagnostic">
-              <p className={dialogueStep}>
-                Signs:
-                {currentSigns}
-              </p>
+              <h3>Signs:</h3>
+              <ul className="signs">{currentSigns}</ul>
+              <h3>Symptoms:</h3>
+              <ul className="symptoms">{currentSymptoms}</ul>
+            </div>
+            <div className="signals">
+              <h3>{currentSignalTitle}</h3>
+              <p>{currentSignalText}</p>
             </div>
           </div>
         </div>
