@@ -5,11 +5,14 @@ import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
+import { Signs, Symptoms, SignalProcessingOutput } from './Data';
 
 class Doctor extends Component {
   state = {
     dialogueStep: 0,
-    buttonClass: null
+    buttonClass: null,
+    signs: [],
+    symptoms: []
   };
 
   //onClick of button
@@ -22,7 +25,7 @@ class Doctor extends Component {
 
   //method to update dialogueStep after each video ends and start the next step
   dialogueNext = () => {
-    const { dialogueStep } = this.state;
+    const { dialogueStep, signs } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
     if (dialogueStep < dialogueLength) {
@@ -36,6 +39,7 @@ class Doctor extends Component {
           video.play();
         }
       );
+      signs.push(Signs[dialogueStep]);
     } else {
       //reset state when all videos end
       this.setState({
@@ -46,7 +50,7 @@ class Doctor extends Component {
   };
 
   render() {
-    let { dialogueStep, buttonClass } = this.state;
+    let { dialogueStep, signs, buttonClass } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
     // current video
@@ -79,19 +83,38 @@ class Doctor extends Component {
         ? DialogueD[dialogueStep].maslo
         : null;
 
+    //current data displayed
+
+    let currentSigns = [...signs];
+
+    // let currentSymptoms =
+    //   dialogueStep && dialogueStep <= dialogueLength
+    //     ? SignalProcessingOutput[0].Symptoms
+    //     : null;
+
+    // let currentProcessingTitle =
+    //   dialogueStep && dialogueStep <= dialogueLength
+    //     ? Object.keys(SignalProcessing[dialogueStep])
+    //     : null;
+
+    // let currentProcessing =
+    //   dialogueStep && dialogueStep <= dialogueLength
+    //     ? SignalProcessing[dialogueStep][0]
+    //     : null;
+
     return (
       <>
         <Nav />
         <div className="maslo-container">
           <Sound url={currentAudio} playStatus={Sound.status.PLAYING} />
-          <Maslo
-            dialogueStep={this.state.dialogueStep}
-            dialoguePage="DialogueD"
-          />
+          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
           <div className="maslo-report">
             <p>{currentMasloText}</p>
             <div className="maslo-diagnostic">
-              <p>{}</p>
+              <p className={dialogueStep}>
+                Signs:
+                {currentSigns}
+              </p>
             </div>
           </div>
         </div>
