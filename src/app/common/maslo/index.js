@@ -18,7 +18,6 @@ class Maslo extends Component {
         ? MasloIDLE1
         : Dialogue[dialogueStep].animation;
 
-    console.log(currentMaslo);
     return (
       <div id="maslo">
         <img src={currentMaslo} width="600" alt="maslo animation" />

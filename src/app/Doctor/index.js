@@ -5,16 +5,20 @@ import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
+import { Signs, Symptoms, SignalProcessing } from './Data';
 
 class Doctor extends Component {
   state = {
     dialogueStep: 0,
-    buttonClass: null
+    buttonClass: null,
+    signs: [],
+    symptoms: []
   };
 
   //onClick of button
   startDialogue = () => {
     this.setState({
+      dialogueStep: 0,
       buttonClass: 'hideBtn'
     });
     this.dialogueNext();
@@ -22,9 +26,11 @@ class Doctor extends Component {
 
   //method to update dialogueStep after each video ends and start the next step
   dialogueNext = () => {
-    const { dialogueStep } = this.state;
+    const { dialogueStep, signs, symptoms } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
+    // as long as the current step is less than the length of the dialogue array
+    // increment the step up and play the new video
     if (dialogueStep < dialogueLength) {
       this.setState(
         {
@@ -36,17 +42,25 @@ class Doctor extends Component {
           video.play();
         }
       );
+      signs.push(Signs[dialogueStep]);
+      symptoms.push(Symptoms[dialogueStep]);
     } else {
       //reset state when all videos end
-      this.setState({
-        dialogueStep: 0,
-        buttonClass: null
-      });
+      setTimeout(this.reset, 3000);
     }
   };
 
+  reset = () => {
+    this.setState({
+      dialogueStep: 0,
+      buttonClass: null,
+      signs: [],
+      symptoms: []
+    });
+  };
+
   render() {
-    let { dialogueStep, buttonClass } = this.state;
+    let { dialogueStep, signs, symptoms, buttonClass } = this.state;
     const dialogueLength = DialogueD.length - 1;
 
     // current video
@@ -63,9 +77,12 @@ class Doctor extends Component {
 
     // current audio
     let currentAudio =
-      dialogueStep && dialogueStep <= dialogueLength
-        ? DialogueD[dialogueStep].audio
-        : null;
+      dialogueStep && dialogueStep <= dialogueLength ? (
+        <Sound
+          url={DialogueD[dialogueStep].audio}
+          playStatus={Sound.status.PLAYING}
+        />
+      ) : null;
 
     // current patient text to display
     let currentPatientText =
@@ -79,19 +96,40 @@ class Doctor extends Component {
         ? DialogueD[dialogueStep].maslo
         : null;
 
+    //current data displayed
+    let currentSigns = signs.map(s => (s ? <li>{s}</li> : null));
+    let currentSymptoms = symptoms.map(s => (s ? <li>{s}</li> : null));
+
+    //current signal
+    let currentSignal = SignalProcessing[dialogueStep - 1];
+
+    let currentSignalTitle =
+      dialogueStep && dialogueStep <= dialogueLength
+        ? Object.keys(currentSignal)[0]
+        : null;
+
+    let currentSignalText =
+      dialogueStep && dialogueStep <= dialogueLength
+        ? currentSignal[currentSignalTitle]
+        : null;
+
     return (
       <>
         <Nav />
         <div className="maslo-container">
-          <Sound url={currentAudio} playStatus={Sound.status.PLAYING} />
-          <Maslo
-            dialogueStep={this.state.dialogueStep}
-            dialoguePage="DialogueD"
-          />
+          {currentAudio}
+          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
           <div className="maslo-report">
             <p>{currentMasloText}</p>
             <div className="maslo-diagnostic">
-              <p>{}</p>
+              <h3>Signs:</h3>
+              <ul className="signs">{currentSigns}</ul>
+              <h3>Symptoms:</h3>
+              <ul className="symptoms">{currentSymptoms}</ul>
+            </div>
+            <div className="signals">
+              <h3>{currentSignalTitle}</h3>
+              <p>{currentSignalText}</p>
             </div>
           </div>
         </div>
