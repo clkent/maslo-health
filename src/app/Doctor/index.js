@@ -7,12 +7,7 @@ import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
-import {
-  Signs,
-  Symptoms,
-  SignalProcessing,
-  SignalProcessingOutput
-} from './Data';
+import { Signs, Symptoms, SignalProcessingOutput } from './Data';
 
 class Doctor extends Component {
   state = {
