@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import '../common.scss';
+
 import MasloIDLE1 from '../../resources/masloIDLE1.gif';
 import DialogueP from '../../Patient/Dialogue';
 import DialogueD from '../../Doctor/Dialogue';
@@ -20,7 +22,12 @@ class Maslo extends Component {
 
     return (
       <div id="maslo">
-        <img src={currentMaslo} width="600" alt="maslo animation" />
+        <img
+          className="focus"
+          src={currentMaslo}
+          width="600"
+          alt="maslo animation"
+        />
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sound from 'react-sound';
 
+import './patient.scss';
+
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
@@ -16,12 +18,19 @@ class Patient extends Component {
   startDialogue = () => {
     this.setState({
       dialogueStep: 0,
-      buttonClass: 'hideBtn'
+      buttonClass: 'stopBtn'
     });
   };
 
-  //slight pause between dialogue steps
+  //if stop button is hit end cycle otherwise add a slight pause
+  // between dialogue steps
   dialogueNext = () => {
+    if (this.state.buttonClass === null) {
+      this.setState({
+        dialogueStep: null
+      });
+      return;
+    }
     setTimeout(this.changeDialogue, 1000);
   };
 
@@ -42,8 +51,15 @@ class Patient extends Component {
     }
   };
 
+  stopDialogue = () => {
+    this.setState({
+      dialogueStep: null,
+      buttonClass: null
+    });
+  };
+
   render() {
-    let { dialogueStep } = this.state;
+    let { dialogueStep, buttonClass } = this.state;
     const dialogueLength = DialogueP.length - 1;
 
     // current audio
@@ -54,41 +70,42 @@ class Patient extends Component {
 
     // current patient text to display
     let currentPatientText =
-      dialogueStep !== null && dialogueStep <= dialogueLength
-        ? DialogueP[dialogueStep].patient
-        : null;
+      dialogueStep !== null &&
+      dialogueStep <= dialogueLength &&
+      DialogueP[dialogueStep].patient ? (
+        <p className="focus">{DialogueP[dialogueStep].patient}</p>
+      ) : null;
 
     // current maslo text to display
     let currentMasloText =
-      dialogueStep !== null && dialogueStep <= dialogueLength
-        ? DialogueP[dialogueStep].maslo
-        : null;
+      dialogueStep !== null && dialogueStep <= dialogueLength ? (
+        <p>{DialogueP[dialogueStep].maslo}</p>
+      ) : null;
+
+    //determine start / stop button
+    let buttonState = buttonClass ? this.stopDialogue : this.startDialogue;
 
     return (
-      <section className="main-container">
+      <section className="patient-page">
         <Nav />
+        <div className="intro">
+          <p>
+            Maslo can be a powerful tool for triaging patients. Below is a
+            simple demonstration of how a patient could interact with Maslo.
+            <button className={buttonClass} onClick={buttonState} />
+          </p>
+        </div>
         <Sound
           url={currentAudio}
           playStatus={Sound.status.PLAYING}
           onFinishedPlaying={this.dialogueNext}
         />
         <div className="maslo-container">
-          <Maslo
-            dialogueStep={this.state.dialogueStep}
-            dialoguePage="DialogueP"
-          />
-          <p>{currentMasloText}</p>
+          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueP" />
+          {currentMasloText}
         </div>
 
-        <div className="patient-container">
-          <p>{currentPatientText}</p>
-          <button
-            className={this.state.buttonClass}
-            onClick={this.startDialogue}
-          >
-            Play
-          </button>
-        </div>
+        <div className="patient-container">{currentPatientText}</div>
       </section>
     );
   }

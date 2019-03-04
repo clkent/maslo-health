@@ -1,11 +1,14 @@
 //Video
 import Patient1 from '../resources/Patient1.mp4';
+import Patient2 from '../resources/Patient2.mp4';
 import Patient3 from '../resources/Patient3.mp4';
-import Patient5 from '../resources/Patient5.mp4';
-import Patient7 from '../resources/Patient7.mp4';
+import Patient4 from '../resources/Patient4.mp4';
 
 //Video Posters
-import Poster1 from '../resources/Poster1.jpg';
+import Poster1 from '../resources/Poster1.png';
+import Poster2 from '../resources/Poster2.png';
+import Poster3 from '../resources/Poster3.png';
+import Poster4 from '../resources/Poster4.png';
 
 //Audio
 import Maslo1 from '../resources/maslo1.mp3';
@@ -23,40 +26,34 @@ import MasloEND from '../resources/masloEND.gif';
 const DialogueD = [
   {
     animation: MasloIDLE1,
-    video: Patient1,
     poster: Poster1
   },
   {
-    animation: MasloINIT,
     audio: Maslo1,
+    animation: MasloINIT,
     video: Patient1,
-    poster: Poster1,
-    patient: 'Hey Maslo, Im uhh... not feeling well'
+    poster: Poster1
   },
   {
     audio: Maslo2,
     maslo: 'Sorry to hear. What is going on?',
     animation: MasloNO,
-    video: Patient3,
-    poster: Poster1,
-    patient:
-      'Well Im just not myself and my family said I should talk to somebody'
+    video: Patient2,
+    poster: Poster2
   },
   {
     audio: Maslo3,
     maslo: 'Has this been going on for some time?',
     animation: MasloQ,
-    video: Patient5,
-    poster: Poster1,
-    patient: 'Yea, Its been a few months'
+    video: Patient3,
+    poster: Poster3
   },
   {
     audio: Maslo4,
     maslo: 'I hear you - let me transfer you to the doctor.',
     animation: MasloEND,
-    video: Patient7,
-    poster: Poster1,
-    patient: 'Thanks'
+    video: Patient4,
+    poster: Poster4
   }
 ];
 

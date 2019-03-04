@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import Sound from 'react-sound';
 
+import './doctor.scss';
+
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
-import { Signs, Symptoms, SignalProcessing } from './Data';
+import {
+  Signs,
+  Symptoms,
+  SignalProcessing,
+  SignalProcessingOutput
+} from './Data';
 
 class Doctor extends Component {
   state = {
@@ -19,7 +26,7 @@ class Doctor extends Component {
   startDialogue = () => {
     this.setState({
       dialogueStep: 0,
-      buttonClass: 'hideBtn'
+      buttonClass: 'stopBtn'
     });
     this.dialogueNext();
   };
@@ -46,11 +53,11 @@ class Doctor extends Component {
       symptoms.push(Symptoms[dialogueStep]);
     } else {
       //reset state when all videos end
-      setTimeout(this.reset, 3000);
+      setTimeout(this.stopDialogue, 3000);
     }
   };
 
-  reset = () => {
+  stopDialogue = () => {
     this.setState({
       dialogueStep: 0,
       buttonClass: null,
@@ -84,24 +91,21 @@ class Doctor extends Component {
         />
       ) : null;
 
-    // current patient text to display
-    let currentPatientText =
-      dialogueStep && dialogueStep <= dialogueLength
-        ? DialogueD[dialogueStep].patient
-        : null;
-
     // current maslo text to display
     let currentMasloText =
       dialogueStep && dialogueStep <= dialogueLength
         ? DialogueD[dialogueStep].maslo
         : null;
 
-    //current data displayed
-    let currentSigns = signs.map(s => (s ? <li>{s}</li> : null));
-    let currentSymptoms = symptoms.map(s => (s ? <li>{s}</li> : null));
-
-    //current signal
-    let currentSignal = SignalProcessing[dialogueStep - 1];
+    //current data to display
+    let currentSigns = signs.map(s =>
+      s ? <li className="focus">{s}</li> : null
+    );
+    let currentSymptoms = symptoms.map(s =>
+      s ? <li className="focus-in">{s}</li> : null
+    );
+    //current signal to display
+    let currentSignal = SignalProcessingOutput[dialogueStep - 1];
 
     let currentSignalTitle =
       dialogueStep && dialogueStep <= dialogueLength
@@ -113,43 +117,58 @@ class Doctor extends Component {
         ? currentSignal[currentSignalTitle]
         : null;
 
+    //determine start / stop button
+    let buttonState = buttonClass ? this.stopDialogue : this.startDialogue;
+
     return (
-      <>
+      <section className="doctor-page">
         <Nav />
-        <div className="maslo-container">
-          {currentAudio}
-          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
-          <div className="maslo-report">
-            <p>{currentMasloText}</p>
-            <div className="maslo-diagnostic">
-              <h3>Signs:</h3>
-              <ul className="signs">{currentSigns}</ul>
-              <h3>Symptoms:</h3>
-              <ul className="symptoms">{currentSymptoms}</ul>
-            </div>
-            <div className="signals">
+
+        <div className="intro">
+          <p>
+            In real time, Maslo interprets signal processing input &amp; maps it
+            to outputs in the audio &amp; visual interface so that the patient
+            feels acknowledged. Maslo then creates a list of observations based
+            on its interaction with the patient. Below is a representation of
+            the inner workings of Maslo.
+            <button className={buttonClass} onClick={buttonState} />
+          </p>
+        </div>
+
+        <section className="container">
+          <div className="patient-container">
+            <video
+              id="video"
+              key={currentVid}
+              width="640"
+              height="352"
+              onEnded={this.dialogueNext}
+              src={currentVid}
+              preload
+              poster={currentVidPoster}
+            />
+            <div className={`signals signal-${dialogueStep}`}>
               <h3>{currentSignalTitle}</h3>
               <p>{currentSignalText}</p>
             </div>
           </div>
-        </div>
 
-        <div className="patient-container">
-          <video
-            id="video"
-            key={currentVid}
-            width="600"
-            onEnded={this.dialogueNext}
-            src={currentVid}
-            poster={currentVidPoster}
-          />
-          <p>{currentPatientText}</p>
-
-          <button className={buttonClass} onClick={this.startDialogue}>
-            Play
-          </button>
-        </div>
-      </>
+          <div className="maslo-container maslo-doctor">
+            {currentAudio}
+            <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
+            <div className="right-col">
+              <p>{currentMasloText}</p>
+              <div className="maslo-report slide-top">
+                <h2>Maslo Observation Report</h2>
+                <h3>Signs</h3>
+                <ul className="signs">{currentSigns}</ul>
+                <h3>Symptoms</h3>
+                <ul className="symptoms">{currentSymptoms}</ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
     );
   }
 }

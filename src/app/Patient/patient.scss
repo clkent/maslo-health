@@ -1,0 +1,27 @@
+/* PATIENT PAGE STYLES */
+
+.patient-page {
+  display: flex;
+  flex-direction: column;
+
+  .patient-container {
+    min-height: 150px;
+    display: inline-block;
+    margin: 0 auto;
+    margin-top: -37px;
+
+    p {
+      font-size: 1.25em;
+      text-align: center;
+      font-weight: 600;
+
+      margin: 0 auto;
+      padding: 15px 40px;
+      display: inline-block;
+
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid #fff;
+      border-radius: 100px;
+    }
+  }
+}

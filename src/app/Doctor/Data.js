@@ -1,11 +1,11 @@
 export const Signs = ['Droopy eyes', 'Slow rate of speech', 'Weight gain'];
 export const Symptoms = [
-  'Marked depressed mood, feeligns of hopelessness, or self-deprecating thoughts',
+  'Marked depressed mood, feelings of hopelessness, or self-deprecating thoughts',
   'Decreased interest in usual activites',
   'Persistent depressed mood most of the day'
 ];
 
-export const SignalProcessing = [
+export const SignalProcessingOutput = [
   {
     'Video Signal Processing':
       'Movement, Face, Depth, Gestures, Objects, Frequency'

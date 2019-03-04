@@ -16,6 +16,7 @@ import MasloNO from '../resources/masloNO.gif';
 import MasloIDLE2 from '../resources/masloIDLE2.gif';
 import MasloQ from '../resources/masloQ.gif';
 import MasloEND from '../resources/masloEND.gif';
+import MasloIDLE3 from '../resources/masloIDLE3.gif';
 
 const DialogueP = [
   {
@@ -56,7 +57,7 @@ const DialogueP = [
   {
     audio: Patient4,
     patient: 'Thanks',
-    animation: MasloIDLE1
+    animation: MasloIDLE3
   }
 ];
 
