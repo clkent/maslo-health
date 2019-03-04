@@ -2,6 +2,7 @@
   "name": "maslo-health",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://maslo-health.netlify.com",
   "dependencies": {
     "@babel/core": "7.2.2",
     "@svgr/webpack": "4.1.0",
