@@ -1,5 +1,26 @@
 /* COMMON STYLES */
 
+.welcome {
+  display: flex;
+  flex-direction: row;
+  text-transform: uppercase;
+  margin: 5px 40px;
+
+  img {
+    max-width: 65px;
+  }
+
+  p {
+    font-size: 0.85em;
+    font-weight: 600;
+
+    padding: 6px 15px 5px 15px;
+    margin-left: 15px;
+
+    border-left: 1px solid rgba(225, 225, 225, 0.5);
+  }
+}
+
 .nav {
   margin: 30px auto;
   padding: 10px;
@@ -33,12 +54,13 @@
 }
 
 .intro {
-  max-width: 800px;
+  max-width: 900px;
   min-height: 140px;
   margin: 0px auto;
 
   text-align: center;
   font-size: 1.5em;
+  line-height: 1.75em;
 
   button {
     z-index: 10;
@@ -114,10 +136,12 @@
 }
 
 .maslo-container.maslo-doctor {
+  top: 0;
+
   #maslo {
     position: relative;
     right: 200px;
-    top: -30px;
+    top: 20px;
 
     img {
       max-width: 450px;

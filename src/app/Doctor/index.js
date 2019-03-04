@@ -124,7 +124,11 @@ class Doctor extends Component {
 
         <div className="intro">
           <p>
-            Helloooo this explains a little here. Click the btn.
+            In real time, Maslo interprets signal processing input &amp; maps it
+            to outputs in the audio &amp; visual interface so that the patient
+            feels acknowledged. Maslo then creates a list of observations based
+            on its interaction with the patient. Below is a representation of
+            the inner workings of Maslo.
             <button className={buttonClass} onClick={buttonState} />
           </p>
         </div>
