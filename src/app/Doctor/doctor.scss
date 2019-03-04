@@ -1,0 +1,28 @@
+/* DOCTOR PAGE STYLES */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: row;
+
+  .maslo-container.maslo-doctor {
+    .right-col {
+      display: flex;
+      flex-direction: column;
+
+      .maslo-report {
+        background: #fff;
+        color: #000;
+
+        width: 300px;
+        padding: 30px;
+      }
+    }
+  }
+
+  .patient-container {
+    display: inline;
+  }
+}

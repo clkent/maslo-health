@@ -16,12 +16,16 @@ class Patient extends Component {
   startDialogue = () => {
     this.setState({
       dialogueStep: 0,
-      buttonClass: 'hideBtn'
+      buttonClass: 'stopBtn'
     });
   };
 
-  //slight pause between dialogue steps
+  //if stop button is hit end cycle otherwise add a slight pause
+  // between dialogue steps
   dialogueNext = () => {
+    if (this.state.dialogueStep === null) {
+      return;
+    }
     setTimeout(this.changeDialogue, 1000);
   };
 
@@ -42,8 +46,15 @@ class Patient extends Component {
     }
   };
 
+  stopDialogue = () => {
+    this.setState({
+      dialogueStep: null,
+      buttonClass: null
+    });
+  };
+
   render() {
-    let { dialogueStep } = this.state;
+    let { dialogueStep, buttonClass } = this.state;
     const dialogueLength = DialogueP.length - 1;
 
     // current audio
@@ -64,30 +75,31 @@ class Patient extends Component {
         ? DialogueP[dialogueStep].maslo
         : null;
 
+    //determine start / stop button
+    let buttonState = buttonClass ? this.stopDialogue : this.startDialogue;
+
     return (
-      <section className="main-container">
+      <section className="patient-page">
         <Nav />
+        <div className="intro">
+          <p>
+            Maslo is a powerful aid in triaging patients. Below is a simple
+            demonstration of how a patient could interact with Maslo.
+          </p>
+          <button className={buttonClass} onClick={buttonState} />
+        </div>
         <Sound
           url={currentAudio}
           playStatus={Sound.status.PLAYING}
           onFinishedPlaying={this.dialogueNext}
         />
         <div className="maslo-container">
-          <Maslo
-            dialogueStep={this.state.dialogueStep}
-            dialoguePage="DialogueP"
-          />
+          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueP" />
           <p>{currentMasloText}</p>
         </div>
 
         <div className="patient-container">
           <p>{currentPatientText}</p>
-          <button
-            className={this.state.buttonClass}
-            onClick={this.startDialogue}
-          >
-            Play
-          </button>
         </div>
       </section>
     );

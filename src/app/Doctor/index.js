@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sound from 'react-sound';
 
+import './doctor.scss';
+
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
@@ -114,42 +116,46 @@ class Doctor extends Component {
         : null;
 
     return (
-      <>
+      <section className="doctor-page">
         <Nav />
-        <div className="maslo-container">
-          {currentAudio}
-          <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
-          <div className="maslo-report">
-            <p>{currentMasloText}</p>
-            <div className="maslo-diagnostic">
-              <h3>Signs:</h3>
-              <ul className="signs">{currentSigns}</ul>
-              <h3>Symptoms:</h3>
-              <ul className="symptoms">{currentSymptoms}</ul>
-            </div>
-            <div className="signals">
+
+        <div className="intro">
+          <p>Helloooo this explains a little here. Click the btn.</p>
+          <button className={buttonClass} onClick={this.startDialogue} />
+        </div>
+
+        <section className="container">
+          <div className="patient-container">
+            <video
+              id="video"
+              key={currentVid}
+              width="640"
+              onEnded={this.dialogueNext}
+              src={currentVid}
+              poster={currentVidPoster}
+            />
+            <p>{currentPatientText}</p>
+            <div className={`signals-${dialogueStep}`}>
               <h3>{currentSignalTitle}</h3>
               <p>{currentSignalText}</p>
             </div>
           </div>
-        </div>
 
-        <div className="patient-container">
-          <video
-            id="video"
-            key={currentVid}
-            width="600"
-            onEnded={this.dialogueNext}
-            src={currentVid}
-            poster={currentVidPoster}
-          />
-          <p>{currentPatientText}</p>
-
-          <button className={buttonClass} onClick={this.startDialogue}>
-            Play
-          </button>
-        </div>
-      </>
+          <div className="maslo-container maslo-doctor">
+            {currentAudio}
+            <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
+            <div className="right-col">
+              <p>{currentMasloText}</p>
+              <div className="maslo-report">
+                <h3>Signs:</h3>
+                <ul className="signs">{currentSigns}</ul>
+                <h3>Symptoms:</h3>
+                <ul className="symptoms">{currentSymptoms}</ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
     );
   }
 }

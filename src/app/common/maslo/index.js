@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import '../common.scss';
+
 import MasloIDLE1 from '../../resources/masloIDLE1.gif';
 import DialogueP from '../../Patient/Dialogue';
 import DialogueD from '../../Doctor/Dialogue';
