@@ -7,7 +7,12 @@ import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
 import DialogueD from './Dialogue';
-import { Signs, Symptoms, SignalProcessing } from './Data';
+import {
+  Signs,
+  Symptoms,
+  SignalProcessing,
+  SignalProcessingOutput
+} from './Data';
 
 class Doctor extends Component {
   state = {
@@ -86,12 +91,6 @@ class Doctor extends Component {
         />
       ) : null;
 
-    // current patient text to display
-    let currentPatientText =
-      dialogueStep && dialogueStep <= dialogueLength
-        ? DialogueD[dialogueStep].patient
-        : null;
-
     // current maslo text to display
     let currentMasloText =
       dialogueStep && dialogueStep <= dialogueLength
@@ -99,11 +98,14 @@ class Doctor extends Component {
         : null;
 
     //current data to display
-    let currentSigns = signs.map(s => (s ? <li>{s}</li> : null));
-    let currentSymptoms = symptoms.map(s => (s ? <li>{s}</li> : null));
-
+    let currentSigns = signs.map(s =>
+      s ? <li className="focus">{s}</li> : null
+    );
+    let currentSymptoms = symptoms.map(s =>
+      s ? <li className="focus-in">{s}</li> : null
+    );
     //current signal to display
-    let currentSignal = SignalProcessing[dialogueStep - 1];
+    let currentSignal = SignalProcessingOutput[dialogueStep - 1];
 
     let currentSignalTitle =
       dialogueStep && dialogueStep <= dialogueLength
@@ -139,12 +141,13 @@ class Doctor extends Component {
               id="video"
               key={currentVid}
               width="640"
+              height="352"
               onEnded={this.dialogueNext}
               src={currentVid}
+              preload
               poster={currentVidPoster}
             />
-            <p>{currentPatientText}</p>
-            <div className={`signals-${dialogueStep}`}>
+            <div className={`signals signal-${dialogueStep}`}>
               <h3>{currentSignalTitle}</h3>
               <p>{currentSignalText}</p>
             </div>
@@ -155,10 +158,11 @@ class Doctor extends Component {
             <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueD" />
             <div className="right-col">
               <p>{currentMasloText}</p>
-              <div className="maslo-report">
-                <h3>Signs:</h3>
+              <div className="maslo-report slide-top">
+                <h2>Maslo Observation Report</h2>
+                <h3>Signs</h3>
                 <ul className="signs">{currentSigns}</ul>
-                <h3>Symptoms:</h3>
+                <h3>Symptoms</h3>
                 <ul className="symptoms">{currentSymptoms}</ul>
               </div>
             </div>

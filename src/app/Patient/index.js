@@ -73,7 +73,7 @@ class Patient extends Component {
       dialogueStep !== null &&
       dialogueStep <= dialogueLength &&
       DialogueP[dialogueStep].patient ? (
-        <p>{DialogueP[dialogueStep].patient}</p>
+        <p className="focus">{DialogueP[dialogueStep].patient}</p>
       ) : null;
 
     // current maslo text to display
