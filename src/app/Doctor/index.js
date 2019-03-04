@@ -21,7 +21,7 @@ class Doctor extends Component {
   startDialogue = () => {
     this.setState({
       dialogueStep: 0,
-      buttonClass: 'hideBtn'
+      buttonClass: 'stopBtn'
     });
     this.dialogueNext();
   };
@@ -48,11 +48,11 @@ class Doctor extends Component {
       symptoms.push(Symptoms[dialogueStep]);
     } else {
       //reset state when all videos end
-      setTimeout(this.reset, 3000);
+      setTimeout(this.stopDialogue, 3000);
     }
   };
 
-  reset = () => {
+  stopDialogue = () => {
     this.setState({
       dialogueStep: 0,
       buttonClass: null,
@@ -98,11 +98,11 @@ class Doctor extends Component {
         ? DialogueD[dialogueStep].maslo
         : null;
 
-    //current data displayed
+    //current data to display
     let currentSigns = signs.map(s => (s ? <li>{s}</li> : null));
     let currentSymptoms = symptoms.map(s => (s ? <li>{s}</li> : null));
 
-    //current signal
+    //current signal to display
     let currentSignal = SignalProcessing[dialogueStep - 1];
 
     let currentSignalTitle =
@@ -115,13 +115,18 @@ class Doctor extends Component {
         ? currentSignal[currentSignalTitle]
         : null;
 
+    //determine start / stop button
+    let buttonState = buttonClass ? this.stopDialogue : this.startDialogue;
+
     return (
       <section className="doctor-page">
         <Nav />
 
         <div className="intro">
-          <p>Helloooo this explains a little here. Click the btn.</p>
-          <button className={buttonClass} onClick={this.startDialogue} />
+          <p>
+            Helloooo this explains a little here. Click the btn.
+            <button className={buttonClass} onClick={buttonState} />
+          </p>
         </div>
 
         <section className="container">

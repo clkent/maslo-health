@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sound from 'react-sound';
 
+import './patient.scss';
+
 import Nav from '../common/Nav';
 import Maslo from '../common/maslo/index';
 
@@ -23,7 +25,10 @@ class Patient extends Component {
   //if stop button is hit end cycle otherwise add a slight pause
   // between dialogue steps
   dialogueNext = () => {
-    if (this.state.dialogueStep === null) {
+    if (this.state.buttonClass === null) {
+      this.setState({
+        dialogueStep: null
+      });
       return;
     }
     setTimeout(this.changeDialogue, 1000);
@@ -65,15 +70,17 @@ class Patient extends Component {
 
     // current patient text to display
     let currentPatientText =
-      dialogueStep !== null && dialogueStep <= dialogueLength
-        ? DialogueP[dialogueStep].patient
-        : null;
+      dialogueStep !== null &&
+      dialogueStep <= dialogueLength &&
+      DialogueP[dialogueStep].patient ? (
+        <p>{DialogueP[dialogueStep].patient}</p>
+      ) : null;
 
     // current maslo text to display
     let currentMasloText =
-      dialogueStep !== null && dialogueStep <= dialogueLength
-        ? DialogueP[dialogueStep].maslo
-        : null;
+      dialogueStep !== null && dialogueStep <= dialogueLength ? (
+        <p>{DialogueP[dialogueStep].maslo}</p>
+      ) : null;
 
     //determine start / stop button
     let buttonState = buttonClass ? this.stopDialogue : this.startDialogue;
@@ -83,10 +90,10 @@ class Patient extends Component {
         <Nav />
         <div className="intro">
           <p>
-            Maslo is a powerful aid in triaging patients. Below is a simple
-            demonstration of how a patient could interact with Maslo.
+            Maslo can be a powerful tool for triaging patients. Below is a
+            simple demonstration of how a patient could interact with Maslo.
+            <button className={buttonClass} onClick={buttonState} />
           </p>
-          <button className={buttonClass} onClick={buttonState} />
         </div>
         <Sound
           url={currentAudio}
@@ -95,12 +102,10 @@ class Patient extends Component {
         />
         <div className="maslo-container">
           <Maslo dialogueStep={dialogueStep} dialoguePage="DialogueP" />
-          <p>{currentMasloText}</p>
+          {currentMasloText}
         </div>
 
-        <div className="patient-container">
-          <p>{currentPatientText}</p>
-        </div>
+        <div className="patient-container">{currentPatientText}</div>
       </section>
     );
   }

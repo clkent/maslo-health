@@ -19,18 +19,15 @@
       font-weight: 600;
       text-decoration: none;
 
-      margin: 0 5px;
-      padding: 8px 20px;
+      margin: 0 8px;
+      padding: 8px 15px;
     }
     a:hover {
       color: #ffd2b3;
+      transition: all 0.4s ease;
     }
     a.selected {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid #fff;
-      border-radius: 100px;
-
-      padding: 8px 19px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     }
   }
 }
@@ -39,18 +36,21 @@
   max-width: 800px;
   min-height: 140px;
   margin: 0px auto;
-  margin-top: 60px;
 
   text-align: center;
   font-size: 1.5em;
 
   button {
+    z-index: 10;
+    position: relative;
+    margin-left: 5px;
+
     content: 'Play';
     display: inline-block;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0);
+    background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
     outline: none;
@@ -72,24 +72,41 @@
   button.stopBtn:after {
     content: '';
     display: inline-block;
-    border: 9px solid #fff;
-    margin: 0 0 0 0px;
+    border: 10px solid rgba(255, 255, 255, 0.25);
+    margin: 0px;
+  }
+
+  /*button hover*/
+  button.stopBtn:hover:after {
+    border: 10px solid #ffd2b3;
+    transition: all 0.4s ease;
   }
 
   button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid #fff;
+    background: rgba(255, 210, 179, 0.08);
+    border: 1px solid rgba(255, 210, 179, 0.6);
+    transition: all 0.4s ease;
+  }
+
+  button:hover:after {
+    border-left: 19px solid #ffd2b3;
+    transition: all 0.4s ease;
   }
 }
 
 /* MASLO STYLES */
 .maslo-container {
+  z-index: 1;
   max-width: 600px;
   min-height: 460px;
   margin: 0px auto;
 
+  position: relative;
+  top: -35px;
+
   p {
     height: 30px;
+    margin: 0;
 
     text-align: center;
     font-size: 1.5em;

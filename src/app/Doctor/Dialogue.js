@@ -23,12 +23,11 @@ import MasloEND from '../resources/masloEND.gif';
 const DialogueD = [
   {
     animation: MasloIDLE1,
-    video: Patient1,
     poster: Poster1
   },
   {
-    animation: MasloINIT,
     audio: Maslo1,
+    animation: MasloINIT,
     video: Patient1,
     poster: Poster1,
     patient: 'Hey Maslo, Im uhh... not feeling well'
